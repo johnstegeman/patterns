@@ -1,3 +1,5 @@
+// SET UP DATA for "shared identity" pattern
+
 merge (a:Account {name: "johnstegeman"})
 merge (a2:Account {name: "steggy"})
 merge (i:Identity:Address {street: "111 Main Street", city: "Anytown"})
@@ -34,6 +36,7 @@ merge (i:Identity:Email {address: "john@cloud.de"})
 with i, a
 merge (a)-[:USES]->(i);
 
+// example of what the SQL might look like
 
 select a1.*, a2.*
 from account a1, account a2
