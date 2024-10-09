@@ -36,6 +36,8 @@ merge (i:Identity:Email {address: "john@cloud.de"})
 with i, a
 merge (a)-[:USES]->(i);
 
+// TODO: Create some more dummy data
+
 // example of what the SQL might look like
 
 select a1.*, a2.*
@@ -69,8 +71,14 @@ merge (b)-[:PERFORMS]->(u)-[:FOR_BENEFIT_OF]->(c)
 merge (c)-[:PERFORMS]->(v)-[:FOR_BENEFIT_OF]->(d)
 merge (d)-[:PERFORMS]->(w)-[:FOR_BENEFIT_OF]->(a);
 
+// TODO: Create some more dummy data
+
 match ring=(a:AccountHolder)
 (()-[:PERFORMS]->()-[:FOR_BENEFIT_OF]->()){3,10}(a)
+return ring;
+
+match ring=(a:AccountHolder)
+(()-[:PERFORMS]->(:Transaction)-[:FOR_BENEFIT_OF]->()){3,10}(a)
 return ring;
 
 // QPP of some type
