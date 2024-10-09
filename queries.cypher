@@ -52,3 +52,26 @@ or (exists (select null from account_email ae1, account_email ae2
                where a1.account_id = ae1.account_id
                and   a2.account_id = ae2.account_id
                and   ae1.email = ae2.email))
+
+
+// Payment ring
+
+merge (a:AccountHolder {name: "John Stegeman"})
+merge (b:AccountHolder {name: "Jane Smith"})
+merge (c:AccountHolder {name: "Fred Rogers"})
+merge (d:AccountHolder {name: "Susan Thomas"})
+merge (t:Transaction {amount: 500})
+merge (u:Transaction {amount: 490})
+merge (v:Transaction {amount: 480})
+merge (w:Transaction {amount: 470})
+merge (a)-[:PERFORMS]->(t)-[:FOR_BENEFIT_OF]->(b)
+merge (b)-[:PERFORMS]->(u)-[:FOR_BENEFIT_OF]->(c)
+merge (c)-[:PERFORMS]->(v)-[:FOR_BENEFIT_OF]->(d)
+merge (d)-[:PERFORMS]->(w)-[:FOR_BENEFIT_OF]->(a);
+
+match ring=(a:AccountHolder)
+(()-[:PERFORMS]->()-[:FOR_BENEFIT_OF]->()){3,10}(a)
+return ring;
+
+// QPP of some type
+
